@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<div ng-controller="TestCtrl">
+  <a b></a>
+</div>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+app.controller('TestCtrl', function($scope){
+
+});
+
+
+app.directive('a', function(){
+  var func = function(element, attrs, link){
+    console.log('a');
+  }
+
+  return {compile: func,
+          priority: 1,
+          restrict: 'EA'};
+});
+
+app.directive('b', function(){
+  var func = function(element, attrs, link){
+    console.log('b');
+  }
+
+  return {compile: func,
+          priority: 2,
+          //terminal: true,
+          restrict: 'A'};
+});
+
+
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

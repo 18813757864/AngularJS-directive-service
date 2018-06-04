@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<title>试验</title>
+
+<script type="text/javascript" src="http://s.zys.me/js/jq/jquery.js"></script>
+<script type="text/javascript" src="http://s.zys.me/js/ng/angular.js"></script>
+
+</head>
+<body>
+<form name="test_form" ng-controller="TestCtrl">
+  <input type="text" name="a" ng-model="a" required ng-pattern="/\d/" />
+  <span ng-click="see()">{{ test_form.$error }}</span>
+</form>
+
+<form name="test_form" ng-controller="Test2Ctrl">
+  <input type="checkbox" name="a" ng-model="a" ng-true-value="AA" ng-false-value="BB" />
+  <span>{{ a }}</span>
+</form>
+
+<form name="test_form" ng-controller="Test2Ctrl">
+  <input type="radio" name="a" ng-model="a" value="AA" />
+  <input type="radio" name="a" ng-model="a" value="BB" />
+  <span>{{ a }}</span>
+</form>
+
+
+<script>
+  angular.module('app', [], angular.noop)
+    .controller('TestCtrl', function($scope){
+      $scope.see = function(){
+        console.log($scope.test_form);
+        console.log($scope.test_form.a);
+      }
+    })
+    .controller('Test2Ctrl', function($scope){
+      $scope.a = 'AA';
+    });
+angular.bootstrap(document.documentElement, ['app']);
+</script>
+</body>
+</html>

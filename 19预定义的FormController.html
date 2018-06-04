@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<div ng-controller="TestCtrl">
+  <div ng-form test>
+    <input ng-model="a" type="email" />
+    <button ng-click="do()">查看</button>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+var app = angular.module('Demo', [], angular.noop);
+
+app.directive('test', function(){
+  var link = function($scope, $element, $attrs, $ctrl){
+    $scope.do = function(){
+      //$ctrl.$setDirty();
+      console.log($ctrl.$pristine); //form是否没被动过
+      console.log($ctrl.$dirty); //form是否被动过
+      console.log($ctrl.$valid); //form是否被检验通过
+      console.log($ctrl.$invalid); //form是否有错误
+      console.log($ctrl.$error); //form中有错误的字段
+    }
+  }
+
+  return {compile: function(){return link},
+          require: 'form',
+          restrict: 'A'}
+});
+
+app.controller('TestCtrl', function($scope){
+});
+
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

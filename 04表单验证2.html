@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<title>试验</title>
+
+<script type="text/javascript" src="http://s.zys.me/js/jq/jquery.js"></script>
+<script type="text/javascript" src="http://s.zys.me/js/ng/angular.js"></script>
+
+</head>
+<body>
+<form name="test_form" ng-controller="TestCtrl">
+  <input type="text" name="a" required ng-model="a"  />
+  <input type="text" name="b" required ng-model="b" ng-minlength="2" />
+  <span ng-click="see()">{{ test_form.$error }}</span>
+</form>
+
+
+<script>
+
+
+
+angular.module('app', [], angular.noop)
+.controller('TestCtrl', function($scope){
+  $scope.see = function(){
+    console.log($scope.test_form.$error);
+  }
+});
+angular.bootstrap(document.documentElement, ['app']);
+</script>
+</body>
+</html>

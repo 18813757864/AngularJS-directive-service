@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="../js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="../js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<test a="1" b c="xxx"></test>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+app.directive('test', function(){
+  var func = function($element, $attrs){
+    console.log($attrs);
+  }
+
+  return {compile: func,
+          restrict: 'EA'}
+        })
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

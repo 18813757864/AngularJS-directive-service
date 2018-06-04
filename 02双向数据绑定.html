@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<title>试验</title>
+
+<script type="text/javascript" src="http://s.zys.me/js/jq/jquery.js"></script>
+<script type="text/javascript" src="http://s.zys.me/js/ng/angular.js"></script>
+
+</head>
+<body>
+<div ng-controller="TestCtrl">
+  <div style="width: 10px; height: 10px; background-color: red" ng-style="style">
+  </div>
+  <input type="text" name="width" ng-model="style.width" />
+</div>
+
+
+<script type="text/javascript">
+angular.module('app', [], angular.noop)
+.controller('TestCtrl', function($scope){
+    $scope.style = {
+      width: 100 + 'px'
+    };
+});
+angular.bootstrap(document.documentElement, ['app']);
+</script>
+</body>
+</html>

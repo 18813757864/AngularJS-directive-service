@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="../js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="../js/angular.js">
+</script>
+<style>
+  a{
+    overflow: hidden;
+    display: inline-block;
+    width: 173px;
+  }
+</style>
+</head>
+<body class="claro">
+
+<div  ng-controller="ctl1">
+        <div style="overflow: hidden;display: inline-block;width: 173px;">
+          <input type="number">
+        </div>
+        <div>父scope：
+            <div>Say：{{aaa.value}}</div>
+        </div>
+        <div>隔离scope：
+            <div aaa="aaa" isolated-directive action="click()"></div>
+        </div>
+        <input type="text" ng-model="bbb" valid-number>
+</div>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+  app.controller("ctl1", function ($scope) {
+        $scope.aaa = {value : "hello world"};
+        $scope.click = function () {
+            $scope.aaa.value = Math.random();
+            $scope.txt = "13233"
+        };
+        $scope.txt = "132"
+    })
+  .directive("isolatedDirective", function () {
+        return {
+            scope: {
+                action: "&",
+                aaa:"@"
+            },
+            template: '<input type="button" value="在directive中执行父scope定义的方法" ng-click="action()"/><br>{{aaa.value}}<br><input type="text" ng-model="aaa.value"/>'
+        }
+    })
+    .directive("tip", function () {
+        return {
+            restrict: 'EA',
+            scope: {
+                txt:"@"
+            },
+            replace:true,
+            template: '<span>{{txt}}</span>'
+        }
+    })
+    .directive("num", function () {
+        return {
+            require: '?ngModel',
+            restrict: 'EA',
+            link: function(scope, element, attrs, ngModel){
+              console.log(ngModel)
+
+              scope.$watch(attrs.ngModel, function(n,o){
+                var reg = "^[0-9]*$";
+                var result = n.match(reg)
+                //n = n.match(/"\D"/g, "''");
+                element.val(result)
+              });
+            }
+        }
+    })
+
+    .directive("validNumber", function () {
+        return {
+            require: '?ngModel',
+            restrict: 'EA',
+            link: function(scope, element, attrs, c){
+
+              scope.$watch(attrs.ngModel, function(n,o){
+
+                var validateStr = n;
+
+                if(validateStr == "" || validateStr == null){
+                  c.$setValidity('number',true);
+                  return;
+                }
+                var result = validateStr.replace(/\D/g,"")
+                element.val(result)
+                if(result != null){
+                  c.$setValidity('number',true);
+                }else{
+                  c.$setValidity('number',false);
+                }
+                
+              });
+            }
+        }
+    })
+
+
+angular.bootstrap(document, ['Demo']);
+
+</script>
+</body>
+</html>

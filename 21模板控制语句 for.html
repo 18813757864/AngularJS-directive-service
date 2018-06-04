@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<div ng-controller="TestCtrl" ng-init="obj_list=[1,2,3,4]; name='name'">
+  <ul>
+    <for o in obj_list>
+      <li>{{ o }}, {{ name }}</li>
+    </for>
+  </ul>
+  <button ng-click="obj_list=[1,2]; name='o?'">修改</button>
+</div>
+
+<script type="text/javascript">
+var app = angular.module('Demo', [], angular.noop);
+
+app.directive('for', function($compile){
+  var compile = function($element, $attrs, $link){
+    var match = $element[0].outerHTML.match('<for (.*?)=.*? in=.*? (.*?)=.*?>');
+    if(!match || match.length != 3){throw Error('syntax: <for o in obj_list>')}
+    var iter = match[1];
+    var list = match[2];
+    var tpl = $compile($.trim($element.html()));
+    $element.empty();
+
+    var link = function($scope, $ielement, $iattrs, $controller){
+
+      var new_node = [];
+
+      $scope.$watch(list, function(list){
+        angular.forEach(new_node, function(n){n.remove()});
+        var scp, inode;
+        for(var i = 0, ii = list.length; i < ii; i++){
+          scp = $scope.$new();
+          scp[iter] = list[i];
+          inode = tpl(scp, angular.noop);
+          $ielement.before(inode);
+          new_node.push(inode);
+        }
+
+      });
+    }
+
+    return link;
+  }
+  return {compile: compile,
+          priority: 1000,
+          terminal: true,
+          restrict: 'E'};
+});
+
+app.controller('TestCtrl', angular.noop);
+
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

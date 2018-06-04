@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/angular.js"></script>
+<script type="text/javascript" src="../plugin/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../plugin/ztree/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="../js/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="../js/echarts3.7.0.min.js"></script>
+<script src='app.js'></script>
+<script src='directive/angular-utils.js'></script>
+<script src='service/toolsService.js'></script>
+<script type="text/javascript" src='controller/appController.js'></script>
+
+<style>
+  a{
+    overflow: hidden;
+    display: inline-block;
+    width: 173px;
+  }
+  .claro{
+    position: relative;
+  }
+  #a1 {
+	position:absolute;
+	border:1px solid #9ACD32;
+	border-radius:50%;
+	overflow:hidden;
+}
+</style>
+</head>
+<body class="claro">
+
+<div  ng-controller="appCtl1">
+    <div class="table_foot">
+        <uib-pagination ng-change="getList()" total-items="condition.total"
+                ng-model="condition.pageNo" items-per-page="condition.pageSize"
+                class="pagination" boundary-links="true" direction-links="false"
+                rotate="true" max-size="8" first-text="首页" last-text="末页">
+        </uib-pagination>
+        <div class="jump">
+          <span>跳转到</span>
+          <input type="text" ng-model="condition.pageNo">
+          <span>页</span>
+          <button ng-click="getList()">GO</button>
+        </div>
+      </div>
+
+        <div>
+          <input type="text" ng-model='assvb' dir-date-picker date-fmt="yyyy-MM-dd">
+        </div>
+        <div>父scope：
+            <div>Say：{{aaa.value}}</div>
+        </div>
+        <div>隔离scope：
+            <div aaa="aaa" isolated-directive action="click()"></div>
+        </div>
+        <div>
+          <input class="agent-right-man" type="text" ng-model="condition.envtProtDep" required readonly ng-click="condition.codeListShow=!condition.codeListShow"/>
+          <div class="aM_unit_tree" style="height: 400px;width: 264px;left: 155px;top: -3px;" enablemove ng-show="condition.codeListShow">
+            <div data-move="true" class="title">
+              <span>选择部门</span><i ng-click="condition.codeListShow=false" class="fa fa-times-circle" style="float:right;margin: 5px;"></i>
+            </div>
+            <div dir-slim options="{'height':'calc(100% - 35px)','size':'5px'}">
+              <ul dir-tree z-nodes="parts.znodes" z-settings="parts.setting" ng-model="parts.zobj" class="ztree" id="qztree2"></ul>
+            </div>
+          </div>
+        </div>
+        <input type="text" ng-model="bbb" dir-valid-number>
+        <div dir-slim>
+          <div load-sign load-state='clickState' >
+            <div dir-enablemove  style="position: relative;width: 500px;height: 400px;">
+                <h1 data-move="true">216546545664</h1>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+                <p>56465465466546554654655646546546654655465465</p>
+              </div>
+          </div>
+        </div>
+        <div style="width:100%;height:300px;" dir-echarts options="bar"></div>
+        <button class="btn" ng-click=changeDataState()>改变加载状态</button>
+        <button class="btn" ng-click='fff()'>改变echarts数据</button>
+        <img src="images/loading.gif" alt="">
+</div>
+</body>
+</html>

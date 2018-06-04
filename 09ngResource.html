@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="Demo">
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/angular-resource.js"></script>
+</head>
+<body>
+
+  <div ng-controller="TestCtrl"></div>
+
+
+<script type="text/javascript" charset="utf-8">
+
+var app = angular.module('Demo', ['ngResource'], angular.noop);
+app.controller('TestCtrl', function($scope, $resource){
+  console.log($resource);
+});
+
+</script>
+</body>
+</html>

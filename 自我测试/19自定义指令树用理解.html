@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
+<script>
+angular.module("treeApp", [])
+.controller("treeController", function($scope){
+  $scope.jsonData = {
+    name: 'menu',
+    children: [{
+      name: 'A',
+      children: [{
+        name: 'A.1',
+        children: [{
+          name: 'A.1.1',
+          children: []
+        }]
+      },{
+        name: 'A.2',
+        children: [{
+          name: 'A.2.1',
+          children: [{
+            name: 'A.2.1.1',
+            children: []
+          }]
+        },{
+          name: 'A.2.2',
+          children: []
+        }]
+      }]
+    },{
+      name: 'B',
+      children: [{
+        name: 'B.1',
+        children: []
+      },{
+        name: 'B.2',
+        children: []
+      }]
+    },{
+      name: 'C',
+      children: []
+    }]
+  };
+}).directive('treeView', function(){
+  return {
+    restrict: 'E',
+    templateUrl: 'treeView.html',
+    scope: {
+      treeData: '='
+    },
+    controller: function($scope){
+      $scope.isLeaf = function(item){
+        return !item.children || !item.children.length;
+      };
+      $scope.toggleExpandStatus = function(item){
+        item.isExpand = !item.isExpand;
+      };
+    }
+  };
+});
+</script>
+<style>
+ul{
+  list-style: none;
+}
+.color-indictor{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.color-indictor.leaf-node{
+  background: red;
+}
+.color-indictor.unexpand-node{
+  background: green;
+}
+.color-indictor.expand-node{
+  background-color: yellow;
+}
+</style>
+<body ng-app="treeApp" ng-controller="treeController">
+  <div>
+  <p>Introduce: Click green block expand the menu tree</p>
+  <p>Red: Leaf node, can not click</p>
+  <p>Green: Unexpand node, click to expand menu</p>
+  <p>Yellow: Expanded node, click to unexpand menu</p>
+  </div>
+  <tree-view tree-data="jsonData"></tree-view>
+</body>
+ 
+<script type="text/ng-template" id="treeView.html">
+  <ul>
+    <li ng-repeat="item in treeData.children" ng-include="'treeItem.html'"></li>
+  </ul>
+</script>
+<script type="text/ng-template" id="treeItem.html">
+  <span class="color-indictor" ng-class="{'leaf-node': isLeaf(item), 'expand-node': !isLeaf(item) && item.isExpand, 'unexpand-node': !isLeaf(item) && !item.isExpand}" ng-click="toggleExpandStatus(item)"></span>
+  <span>{{item.name}}</span>
+  <ul ng-if="!isLeaf(item)" ng-show="item.isExpand">
+    <li ng-repeat="item in item.children" ng-include="'treeItem.html'"></li>
+  </ul>
+</script>
+</html>

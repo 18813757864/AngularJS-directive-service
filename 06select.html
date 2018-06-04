@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<title>试验</title>
+
+<script type="text/javascript" src="http://s.zys.me/js/jq/jquery.js"></script>
+<script type="text/javascript" src="http://s.zys.me/js/ng/angular.js"></script>
+
+</head>
+<body>
+<form name="test_form" ng-controller="TestCtrl" ng-init="o=[0,1,2,3];">
+  <select ng-model="a" ng-options="x for x in o" ng-change="show()">
+    <option value="" >可以加这个空值</option>
+  </select>
+</form>
+
+<!-- 在 $scope 中， select 绑定的变量，其值和普通的 value 无关，可以是一个对象： 适用于联动-->
+<form name="test_form" ng-controller="TestCtrl"
+      ng-init="o=[{name: 'AA'}, {name: 'BB'}]; a=o[1];">
+  <select ng-model="a" ng-options="x.name for x in o" ng-change="show()">
+  </select>
+</form>
+
+<!-- 显示与值分别指定， x.v as x.name for x in o  -->
+<form name="test_form" ng-controller="TestCtrl"
+      ng-init="o=[{name: 'AA', v: '00'}, {name: 'BB', v: '11'}]; a=o[1].v;">
+  <select ng-model="a" ng-options="x.v as x.name for x in o" ng-change="show()">
+  </select>
+</form>
+
+<!-- 加入分组的， x.name group by x.g for x in o ： -->
+<form name="test_form" ng-controller="TestCtrl"
+      ng-init="o=[{name: 'AA', g: '00'},
+                  {name: 'BB', g: '11'},
+                  {name: 'CC', g: '00'}]; a=o[1];">
+  <select ng-model="a" ng-options="x.name group by x.g for x in o" ng-change="show()">
+  </select>
+</form>
+
+<!-- 如果参数是对象的话，基本也是一样的，只是把遍历的对象改成 (key, value) -->
+<form name="test_form" ng-controller="TestCtrl" ng-init="o={a: 0, b: 1}; a=o.a;">
+  <select ng-model="a" ng-options="k for (k, v) in o" ng-change="show()">
+  </select>
+</form>
+
+<form name="test_form" ng-controller="TestCtrl"
+      ng-init="o={a: {name: 'AA', v: '00'}, b: {name: 'BB', v: '11'}}; a=o.a.v;">
+  <select ng-model="a" ng-options="v.v as v.name for (k, v) in o"
+          ng-change="show()">
+  </select>
+</form>
+
+<form name="test_form" ng-controller="TestCtrl"
+      ng-init="o={a: {name: 'AA', v: '00', g: '=='},
+                  b: {name: 'BB', v: '11', g: '=='}}; a=o.a;">
+  <select ng-model="a" ng-options="v.name group by v.g for (k, v) in o"
+          ng-change="show()">
+  </select>
+</form>
+
+<form name="test_form" ng-controller="TestCtrl"
+      ng-init="o={a: {name: 'AA', v: '00', g: '=='},
+                  b: {name: 'BB', v: '11', g: '=='}}; a=o.a.v;">
+  <select ng-model="a" ng-options="v.v as v.name group by v.g for (k, v) in o"
+          ng-change="show()">
+  </select>
+</form>
+
+<script type="text/javascript">
+angular.module('app', [], angular.noop)
+.controller('TestCtrl', function($scope){
+  $scope.show = function(){
+    console.log($scope.a);
+  }
+});
+angular.bootstrap(document.documentElement, ['app']);
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="../js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="../js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<div ng-controller="ctl1">
+    <div>父scope：
+        <div>Say：{{user.name}}<br>改变父scope的name：<input type="text" value="" ng-model="user.name"/></div>
+    </div>
+    <div>隔离scope：
+        <div isolated-directive user="user"></div>
+    </div>
+    <div>隔离scope（使用{{name}}，这个会报错）：
+        <div isolated-directive user="{{user}}"></div> 
+    </div>
+</div>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+ app.controller("ctl1", function ($scope) {
+        $scope.user = {
+            name: 'hello',
+            id: 1
+        };
+    }).directive("testDirective", function () {
+        return {
+            scope: {
+                user: "="
+            },
+            template: 'Say：{{user.name}} <br>改变隔离scope的name：<input type="buttom" value="" ng-model="user.name"/>'
+        }
+    })
+
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

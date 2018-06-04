@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="../js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="../js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<div  ng-controller="ctl1">
+        <div>父scope：
+            <div>Say：{{aaa.value}}</div>
+        </div>
+        <div>隔离scope：
+            <div aaa="aaa" isolated-directive action="click()"></div>
+        </div>
+</div>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+  app.controller("ctl1", function ($scope) {
+        $scope.aaa = {value : "hello world"};
+        $scope.click = function () {
+            $scope.aaa.value = Math.random();
+        };
+    }).directive("isolatedDirective", function () {
+        return {
+            scope: {
+                action: "&",
+                aaa:"="
+            },
+            template: '<input type="button" value="在directive中执行父scope定义的方法" ng-click="action()"/><br>{{aaa.value}}<br><input type="text" ng-model="aaa.value"/>'
+        }
+    })
+
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

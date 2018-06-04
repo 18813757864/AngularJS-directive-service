@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+  <code lines>
+    //失去焦点使用 jQuery 的扩展支持冒泡
+app.directive('ngBlur', function($parse){
+  return function($scope, $element, $attr){
+    var fn = $parse($attr['ngBlur']);
+    $element.on('focusout', function(event){
+      fn($scope, {$event: event});
+    });
+  }
+});
+  </code>
+
+  <div code lines>
+//失去焦点使用 jQuery 的扩展支持冒泡
+app.directive('ngBlur', function($parse){
+  return function($scope, $element, $attr){
+    var fn = $parse($attr['ngBlur']);
+    $element.on('focusout', function(event){
+      fn($scope, {$event: event});
+    });
+  }
+});
+</div>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+app.directive('code', function(){
+  var func = function($scope, $element, $attrs){
+
+    var html = $element.text();
+    var lines = html.split('\n');
+    console.log(lines)
+
+    //处理首尾空白
+    if(lines[0] == ''){lines = lines.slice(1, lines.length - 1)}
+      console.log(lines)
+    if(lines[lines.length-1] == ''){lines = lines.slice(0, lines.length - 1)}
+
+    $element.empty();
+
+    //处理外框
+    (function(){
+      $element.css('clear', 'both');
+      $element.css('display', 'block');
+      $element.css('line-height', '20px');
+      $element.css('height', '200px');
+    })();
+
+    console.log($attrs)
+    //是否显示行号的选项
+    if('lines' in $attrs){
+      //处理行号
+      (function(){
+        var div = $('<div style="width: %spx; background-color: gray;' +
+                    'float: left; text-align: right; padding-right: 5px;' +
+                    'margin-right: 10px;"></div>'
+                    .replace('%s', String(lines.length).length * 10));
+        console.log(String(lines.length))
+        var s = '';
+        angular.forEach(lines, function(_, i){
+          s += '<pre style="margin: 0;">%s</pre>\n'.replace('%s', i + 1);
+        });
+        div.html(s);
+        $element.append(div);
+      })();
+    }
+
+    //处理内容
+    (function(){
+      var div = $('<div style="float: left;"></div>');
+      var s = '';
+      angular.forEach(lines, function(l){
+        s += '<span style="margin: 0;">%s</span><br />\n'
+             .replace('%s', l.replace(/\s/g, '<span>&nbsp;</span>'));
+      });
+      div.html(s);
+      $element.append(div);
+    })();
+  }
+
+  return {link: func,
+          restrict: 'AE'}; //以元素或属性的形式使用命令
+});
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+</head>
+<body class="claro">
+
+<script type="text/javascript"
+  src="js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="js/angular.js">
+</script>
+
+
+<div ng-controller="TestCtrl">
+<p>示例数据: {{ a|map:map_value:'>>':'(no)' }}</p>
+<p>示例数据: {{ b|map:map_value:'>>':'(no)' }}</p>
+</div>
+
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+app.controller('TestCtrl', function($scope){
+  $scope.map_value = {
+    a: '一',
+    b: '二',
+    c: '三'
+  }
+  $scope.a = 'a';
+});
+
+app.filter('map', function(){
+  var filter = function(input, map_value, append, default_value){
+    var r = map_value[input];
+    if(r === undefined){ return default_value + append }
+    else { return r + append }
+  };
+  return filter;
+});
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<p show style="font-size: 12px;"></p>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+app.directive('show', function(){
+  var func = function($scope, $element, $attrs){
+    console.log($scope);
+    console.log($element);
+    console.log($attrs);
+  }    
+  return func;
+  //return {compile: function(){return func}}
+});
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

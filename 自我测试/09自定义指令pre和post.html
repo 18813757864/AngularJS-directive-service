@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="../js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="../js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<a><b></b></a>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+app.directive('a', function(){
+  var func = function(){
+    console.log('a compile');
+    return {
+      pre: function(){console.log('a link pre')},
+      post: function(){console.log('a link post')},
+    }
+  }
+
+  return {compile: func,
+          restrict: 'E'}
+});
+
+app.directive('b', function(){
+  var func = function(){
+    console.log('b compile');
+    return {
+      pre: function(){console.log('b link pre')},
+      post: function(){console.log('b link post')},
+    }
+  }
+
+  return {compile: func,
+          restrict: 'E'}
+});
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

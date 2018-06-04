@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="../js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="../js/angular.js">
+</script>
+</head>
+<body class="claro">
+<div ng-controller="TestCtrl">
+  <div a abc="here" xx="{{ a }}" c="ccc"></div>
+</div>
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+app.directive('a', function(){
+  var func = function(element, attrs, link){
+    return function(scope){
+      console.log(scope);
+    }
+  }
+
+  return {compile: func,
+          scope: {a: '@abc', b: '@xx', c: '@'},
+          restrict: 'A'};
+});
+
+app.controller('TestCtrl', function($scope){
+  $scope.a = '123';
+});
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

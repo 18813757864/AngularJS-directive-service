@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<title>其他服务</title>
+
+<script type="text/javascript" src="http://s.zys.me/js/jq/jquery.js"></script>
+<script type="text/javascript" src="http://s.zys.me/js/ng/angular.js"></script>
+
+</head>
+<body>
+<div ng-controller='TestCtrl'></div>
+<script type="text/javascript">
+angular.module('app', [], angular.noop)
+.controller('TestCtrl',['$scope','$parse', '$log',function($scope,$parse, $log){
+
+  $log.error('error');
+  $log.info('info');
+  $log.log('log');
+  $log.warn('warn');
+
+  // $parse 返回一个函数，调用这个函数时，可以传两个参数，第一个作用域，第二个是变量集，后者常用于覆盖前者的变量：
+    // var get_name = $parse('name');
+    // var r = get_name({name: 'xx'}, {name: 'abc'});
+    // console.log(r)
+
+
+// $parse 返回的函数，也提供了相应的 assign 功能，可以为表达式赋值（如果可以的话）：
+    var get_name = $parse('name');
+var set_name = get_name.assign;
+var r = get_name({name: 'xx'}, {name: 'abc'});
+console.log(r);
+
+var s = {}
+set_name(s, '123');
+var r = get_name(s);
+console.log(r);
+
+
+
+    }]);
+angular.bootstrap(document.documentElement, ['app']);
+</script>
+</body>
+</html>

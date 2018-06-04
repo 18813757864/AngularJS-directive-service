@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>AngularJS</title>
+<script type="text/javascript"
+  src="../js/jquery.js">
+</script>
+<script type="text/javascript"
+  src="../js/angular.js">
+</script>
+</head>
+<body class="claro">
+
+<div ng-controller="ctl1">
+   <div>
+       <div>父scope：
+           <div>Say：{{name}}<br>改变父scope的name：<input type="text" value="" ng-model="name"/></div>
+       </div>
+       <div>隔离scope：这个显示为hello world
+           <div test-directive name="{{name}}"></div>
+       </div>
+        <div>隔离scope（不使用{{name}}这个就直接显示为name了）：
+             <div test-directive name="name"></div> 
+         </div>
+   </div>
+
+<script type="text/javascript">
+
+var app = angular.module('Demo', [], angular.noop);
+
+app.controller("ctl1", function ($scope) {
+        $scope.name = "hello world";
+    }).directive("testDirective", function () {
+        return {
+            scope: {
+                name: "@"
+            },
+            template: 'Say：{{name}} <br>改变隔离scope的name：<input type="buttom" value="" ng-model="name" class="ng-pristine ng-valid">'
+        }
+})
+
+app.controller('TestCtrl', function($scope){
+  $scope.show = function(v){console.log(v);}
+});
+
+
+angular.bootstrap(document, ['Demo']);
+</script>
+</body>
+</html>

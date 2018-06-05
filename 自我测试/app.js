@@ -1,4 +1,4 @@
-var module = angular.module('Demo', [], angular.noop)
+var module = angular.module('Demo', ['ui.bootstrap'], angular.noop)
 .run(['$http', function($http) {
     console.log('aaa')
 }]);

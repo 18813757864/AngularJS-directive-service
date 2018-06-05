@@ -14,6 +14,13 @@ $(function(){
         pageSize:10
     }
 
+    $scope.getList = function(){};
+    $scope.condition = {
+        total:100,
+        pageNo:1,
+        pageSize:10
+    };
+
     var config = {
         elem: '#test1', //指定元素
         type: 'date',

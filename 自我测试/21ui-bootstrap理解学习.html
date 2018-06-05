@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+     <title></title>
+ 
+    <script src="../js/jquery.js"></script>
+
+    <script src="../js/angular.min.js"></script>
+    <script src="../js/ui-bootstrap-tpls.min.js"></script>
+
+ </head>
+ <body>
+    <div ng-controller="PaginationDemoCtrl">
+
+            <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
+            <div uib-collapse="isCollapsed" collapsed="coled()" collapsing="coling()" expanded="exped()" expanding="exping()">
+            <div class="well well-lg">Some content</div>
+            </div>
+
+            <uib-accordion close-others="oneAtATime">
+                    <uib-accordion-group heading="标题" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+                        内容...
+                    </uib-accordion-group>
+            </uib-accordion>
+
+            <uib-accordion close-others="oneAtATime">
+                    <uib-accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+                            {{group.content}}
+                    </uib-accordion-group>
+            </uib-accordion>
+
+            <uib-accordion close-others="oneAtATime">
+                    <uib-accordion-group heading="动态内容">
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+                            <div ng-repeat="item in items">{{item}}</div>
+                     </uib-accordion-group>
+            </uib-accordion>
+
+            <p class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dat" is-open="popup1.opened" ng-required="true" close-text="关闭"
+                            clear-text="清空" current-text="今天" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            </p>
+
+            <h4>Pager</h4>
+            <uib-pager total-items="totalItems" ng-model="currentPage" next-text="下一页" previous-text="上一页" num-pages="totalPage"></uib-pager>
+            <pre>当前页：{{currentPage}},总页数：{{totalPage}}</pre>
+
+            <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" first-text="第一页" previous-text="上一页" next-text="下一页" last-text="最后页" boundary-links="true" boundary-link-numbers="true"></uib-pagination>
+
+            <uib-tabset active="active" type="tabs">
+                <uib-tab index="0" heading="标签页1">内容1</uib-tab>
+                <uib-tab index="$index + 1" ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+                    {{tab.content}}
+                </uib-tab>
+                <uib-tab index="3" select="alertMe()">
+                    <uib-tab-heading>
+                        <i class="glyphicon glyphicon-bell"></i> Alert!
+                    </uib-tab-heading>
+                    内容部分
+                </uib-tab>
+            </uib-tabset>
+            
+            <h4>复选框</h4>
+            <pre>Results: {{checkResults}}</pre>
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="checkModel.left" uib-btn-checkbox>Left</label>
+                <label class="btn btn-primary" ng-model="checkModel.middle" uib-btn-checkbox>Middle</label>
+                <label class="btn btn-primary" ng-model="checkModel.right" uib-btn-checkbox>Right</label>
+            </div>
+            <h4>单选框</h4>
+            <pre>{{radioModel || 'null'}}</pre>
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Left'">Left</label>
+                <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Middle'">Middle</label>
+                <label class="btn btn-primary" ng-model="radioModel" uib-btn-radio="'Right'">Right</label>
+            </div>
+
+            <div class="btn-group" uib-dropdown ng-init="dropdownItems=['第一项','第二项','第三项']">
+                <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle >
+                    请选择 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu  >
+                    <li ng-repeat="item in dropdownItems">
+                        <a href="#">{{item}}</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li ><a href="#">其他</a></li>
+                </ul>
+            </div>
+
+            <div  class="form-group"><button tooltip-placement="right" uib-tooltip="文本提示框" type="button" class="btn btn-default">按钮</button></div>
+            <div  class="form-group"><a href="#" uib-tooltip-html="htmlTooltip">使用html的提示框</a></div>
+            <div  class="form-group"><input type="text" uib-tooltip-template="'myTooltipTemplate.html'" value="模板提示框"/></div>
+
+            <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+            <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+
+            <input type="text" ng-model="selected" uib-typeahead="n.name as n.name+'('+n.ename+')' for n in names | filter:$viewValue | limitTo:8" class="form-control">
+
+            <uib-progressbar value="val" type="success">{{val}}%</uib-progressbar>
+
+            <uib-progress>
+                <uib-bar ng-repeat="bar in bars track by $index" value="bar.value" type="{{bar.type}}">{{bar.value}}%
+                </uib-bar>
+            </uib-progress>
+
+            <div style="height: 305px">
+                <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+                    <uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+                        <img ng-src="{{slide.image}}" style="margin:auto;">
+                        <div class="carousel-caption">
+                            <h4>Slide {{slide.id}}</h4>
+                            <p>{{slide.text}}</p>
+                        </div>
+                    </uib-slide>
+                </uib-carousel>
+            </div>
+   </div>
+</body>
+<script>
+angular.module('Demo', ['ui.bootstrap']).controller('PaginationDemoCtrl', function ($scope,$sce,$uibModal, $log) {
+    //Collapse
+    $scope.isCollapsed = true;
+
+    $scope.coled = function () {
+        console.log("collapsed");
+    }
+    $scope.coling = function () {
+        console.log("collapsing");
+    }
+    $scope.exped = function () {
+        console.log("expanded");
+    }
+    $scope.exping = function () {
+        console.log("expanding");
+    }
+
+    //Accordion
+    $scope.oneAtATime = true;
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+
+    $scope.groups = [
+        {
+            title: '第一个面板',
+            content: '第一个面板的内容'
+        },
+        {
+            title: '第二个面板',
+            content: '第二个面板的内容'
+        }
+    ];
+
+    $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+    $scope.addItem = function () {
+        var newItemNo = $scope.items.length + 1;
+        $scope.items.push('Item ' + newItemNo);
+    };
+
+    //Datepicker Popup
+    $scope.dat = new Date();
+    $scope.format = "yyyy/MM/dd";
+    $scope.altInputFormats = ['yyyy/M!/d!'];
+
+    $scope.popup1 = {
+        opened: false
+    };
+    $scope.open1 = function () {
+        $scope.popup1.opened = true;
+    };
+
+    //Pager和Pagination
+    $scope.totalItems = 64;
+    $scope.currentPage = 4;
+    $scope.maxSize = 5;
+
+    //Tabs
+    $scope.tabs = [
+        { title: '标签页a', content: '标签页a的内容' },
+        { title: '标签页b', content: '标签页b的内容', disabled: true }
+    ];
+
+    $scope.alertMe = function () {
+        setTimeout(function () {
+            $window.alert('clicked!');
+        });
+    };
+
+    //Buttons和Dropdown
+    $scope.singleModel = 1;
+    $scope.radioModel = 'Middle';
+
+    $scope.checkModel = {
+        left: false,
+        middle: true,
+        right: false
+    };
+
+    $scope.checkResults = [];
+
+    $scope.$watchCollection('checkModel', function () {
+        $scope.checkResults = [];
+        angular.forEach($scope.checkModel, function (value, key) {
+            if (value) {
+                $scope.checkResults.push(key);
+            }
+        });
+    });
+
+    //Tooltip和Popover
+    $scope.htmlTooltip = $sce.trustAsHtml('代码示例 <code>id:5</code>');
+
+    $scope.text = "一些文本";
+
+    //Alert
+    $scope.alerts = [
+        { type: 'danger', msg: '出错消息' },
+        { type: 'success', msg: '成功消息' },
+    { type: 'info', msg: '提示消息' },
+    { type: 'warning', msg: '警告信息' }
+    ];
+
+    $scope.addAlert = function () {
+        $scope.alerts.push({ msg: '这是一条消息!' });
+    };
+
+    $scope.closeAlert = function (index) {
+        $scope.alerts.splice(index, 1);
+    };
+    $scope.addTplAlert = function () {
+
+    }
+
+    //Typeahead
+    $scope.selected = undefined;
+    $scope.names = [
+        { 'name': '张三', 'ename': 'zhangsan' },
+        { 'name': '李四', 'ename': 'lisi' },
+        { 'name': '王五', 'ename': 'wangwu' }
+    ];
+
+    //Progressbar
+    $scope.val = 90;
+    $scope.bars = [
+        { value: "30", type: "info" },
+        { value: "30", type: "warning" },
+        { value: "35", type: "danger" }
+    ];
+
+    //Carousel
+    $scope.myInterval = 2000;
+    $scope.noWrapSlides = false;
+    $scope.active = 0;
+    var slides = $scope.slides = [];
+    var addSlide = function () {
+        slides.push({
+            image: 'http://lorempixel.com/600/300',
+            text: 'Image1',
+            id: 0
+        });
+        slides.push({
+            image: 'http://lorempixel.com/601/300',
+            text: 'Image2',
+            id: 1
+        });
+    };
+
+    addSlide();
+
+});
+angular.bootstrap(document, ['Demo']);
+</script>
+<script type="text/ng-template" id="myTooltipTemplate.html">
+    <div>使用模板的提示框<strong>markup</strong>{{ text }}</div>
+</script>
+<script type="text/ng-template" id="alert.html">
+    <div class="alert" style="background-color:#fa39c3;color:white" role="alert">
+        <div ng-transclude></div>
+    </div>
+</script>
+</html>

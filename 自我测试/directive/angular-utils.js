@@ -2,7 +2,7 @@
  * echarts 必须给宽度和高度
  * ------------------------------------------------------------------
  */
-app.directive("dirEcharts",['$timeout', function ($timeout) {
+module.directive("dirEcharts",['$timeout', function ($timeout) {
        return {
             restrict:"EA",
             scope:{
@@ -10,7 +10,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
             },
             link: function(scope, element, attrs){
                 var chart, timer;
-                var chartId = attrs.echartsDirective ? attrs.echartsDirective : 'autoId';
+                var chartId = attrs.dirEcharts ? attrs.dirEcharts : 'autoId';
 
                 scope.$watch('options',function(n,o){
                     if(scope.options){
@@ -73,10 +73,10 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
               
             }
        }
-    }])
+    }]);
 
     //用input type=text 代替type=number
-    .directive("dirValidNumber", [function () {
+    module.directive("dirValidNumber", [function () {
         return {
             require: '?ngModel',
             restrict: 'EA',
@@ -104,7 +104,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
     }])
 
     //拖拽 选择拖拽的元素加enablemove 触发拖拽的元素加data-move="true"
-    .directive("dirEnablemove", [function () {
+    module.directive("dirEnablemove", [function () {
         return {
             restrict: 'EA',
             link: function(scope, element, attrs){
@@ -153,7 +153,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
     }])
 
     //加载数据请求 cgs-data-state state='dataState'
-    .directive('dirDataState', [function () {
+    module.directive('dirDataState', [function () {
         return {
             restrict: 'A',
             scope: {
@@ -251,7 +251,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
     }])
 
     //点击按钮更改按钮状态
-    .directive("clickWaiting", [function() {
+    module.directive("clickWaiting", [function() {
 		return {
 			restrict: 'A',
 			scope: {
@@ -275,7 +275,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
     }])
     
     //查询数据加载状态 load-sign load-state='dateState' true false
-    .directive("loadSign", ['$compile', function($compile) { 
+    module.directive("loadSign", ['$compile', function($compile) { 
 		return {
 	        restrict: 'A',
 	        scope: {
@@ -331,7 +331,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
     }])
     
     //滚动条 支持Chrome FireFox Opera IE6+ 
-    .directive('dirSlim', [function () {
+    module.directive('dirSlim', [function () {
         return {
             restrict: 'AC',
             scope: {
@@ -351,7 +351,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
     }])
 
     //datePicker97 必须要有ng-model 
-    .directive('dirDatePicker', function(dateFilter) {
+    module.directive('dirDatePicker', function(dateFilter) {
         return{
             require : '?ngModel',
             restrict: 'A',
@@ -401,7 +401,7 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
     })
 
     //树插件 dir-tree z-nodes="regionTree.allNodes" z-settings="regionTree.settings" 插件数据和controller数据不是保持一致，修改后需要回调保持一致
-    .directive('dirTree', function ($http) {
+    module.directive('dirTree', function ($http) {
         return {
             require: '^ngModel',
             restrict: 'A',
@@ -435,4 +435,61 @@ app.directive("dirEcharts",['$timeout', function ($timeout) {
             }
         };
     })
-   
+
+    //layDate时间指令 date-type设置控件选择类型 format设置input的格式 选择范围用range theme设置主题
+    module.directive('dirLayDate', function() {
+        return {
+            restrict: 'A',
+            require: '?ngModel',
+            scope: {
+                ngModel: '=',
+                maxDate: '@',
+                minDate: '@'
+            },
+            link: function(scope, element, attr, ngModel) {
+                var _date = null,
+                    _config = {};
+
+                if (!attr.id) {
+                    element.attr('id', '_laydate' + (Date.now()));
+                }
+                
+                // 日期配置参数
+                _config = {
+                    elem: '#' + element.attr('id'),
+                    format: attr.hasOwnProperty('format') && attr.format ? attr.format : 'yyyy-MM-dd',
+                    type: attr.hasOwnProperty('dateType') && attr.dateType ? attr.dateType : 'date',
+                    min: attr.hasOwnProperty('minDate') && attr.minDate ? attr.minDate : '1900-01-01',
+                    max: attr.hasOwnProperty('maxDate') && attr.maxDate ? attr.maxDate : '2099-12-31',
+                    range:attr.hasOwnProperty('range') && attr.range ? attr.range : '',
+                    theme:attr.hasOwnProperty('theme') && attr.theme ? attr.theme : '',
+                    choose: function(data) {
+                        scope.$apply(setDateVal);
+                    },
+                    clear: function() {
+                        ngModel.$setViewValue(null);
+                    }
+                };
+                // 初始化日期
+               laydate.render(_config);
+
+                // 监听输入框 时刻同步 $viewValue 和 DOM节点的value
+                ngModel.$render = function() {
+                    element.val(ngModel.$viewValue || '');
+                };
+
+                // 监听输入框 时刻同步 $viewValue 和 DOM节点的value
+                element.on('blur keyup change', function() {
+                    scope.$apply(setDateVal);
+                });
+
+                setDateVal();
+
+                // 同步 DOM节点的value 到 $viewValue 
+                function setDateVal() {
+                    var val = element.val();
+                    ngModel.$setViewValue(val);
+                }
+            }
+        }
+    })

@@ -1,4 +1,4 @@
-app.service('tools', ['$http', '$filter', '$q', function($http, $filter, $q) {
+module.service('tools', ['$http', '$filter', '$q', function($http, $filter, $q) {
       var dataStore = {};
        var tools= {
            

@@ -9,6 +9,7 @@
 <script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/angular.js"></script>
 <script type="text/javascript" src="../plugin/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="../plugin/laydate/laydate.js"></script>
 <script type="text/javascript" src="../plugin/ztree/js/jquery.ztree.all-3.5.min.js"></script>
 <script type="text/javascript" src="../js/ui-bootstrap-tpls.min.js"></script>
 <script type="text/javascript" src="../js/echarts3.7.0.min.js"></script>
@@ -37,6 +38,12 @@
 <body class="claro">
 
 <div  ng-controller="appCtl1">
+    <input type="text" id="test1">
+    <div class="form-group">
+        <input dir-lay-date type="text" ng-model="startTime" id="startTime" max-date="2018-08-01" theme="molv" placeholder="开始日期" />
+        <span class="text-inline">至</span>
+        <input dir-lay-date type="text" ng-model="endTime" id="endTime" min-date="2018-06-01" format='yyyy-MM-dd' placeholder="结束日期"/>
+    </div>
     <div class="table_foot">
         <uib-pagination ng-change="getList()" total-items="condition.total"
                 ng-model="condition.pageNo" items-per-page="condition.pageSize"

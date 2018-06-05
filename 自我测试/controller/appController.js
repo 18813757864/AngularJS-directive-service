@@ -1,5 +1,5 @@
 $(function(){
-app.controller("appCtl1", function ($scope) {
+    module.controller("appCtl1", function ($scope) {
     $scope.aaa = {value : "hello world"};
     $scope.click = function () {
         $scope.aaa.value = Math.random();
@@ -13,6 +13,15 @@ app.controller("appCtl1", function ($scope) {
         pageNo:1,
         pageSize:10
     }
+
+    var config = {
+        elem: '#test1', //指定元素
+        type: 'date',
+        range: '到',
+        format: 'yyyy年M月d日'
+        };
+
+    laydate.render(config);
 
     $scope.bar = {
             title: {
@@ -37,6 +46,7 @@ app.controller("appCtl1", function ($scope) {
       console.log(111)
       $scope.bar.series[0].data = [50, 120, 136, 100, 10, 20];
       $scope.clickState = true;
+      config.min = "2018-06-10"
     };
 
     $scope.jsonData = {
